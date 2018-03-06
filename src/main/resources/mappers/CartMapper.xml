@@ -83,6 +83,7 @@
         now()
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.mmall.pojo.Cart" >
     update mmall_cart
     <set >
@@ -105,6 +106,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.mmall.pojo.Cart" >
     update mmall_cart
     set user_id = #{userId,jdbcType=INTEGER},
@@ -115,4 +117,23 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+    AND  product_id = #{productId}
+  </select>
+
+  <select id="selectCartByUserId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+
+  <select id="selectCartProductcheckedStatusByUserId" resultType="int">
+    SELECT count(1) FROM mmall_cart WHERE user_id = #{userId} AND checked = 0
+  </select>
 </mapper>
